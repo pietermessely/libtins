@@ -30,6 +30,7 @@
 #ifndef TINS_BOOTP_H
 #define TINS_BOOTP_H
 
+#include <algorithm>
 #include <stdint.h>
 #include <vector>
 #include <tins/pdu.h>
