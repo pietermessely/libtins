@@ -89,9 +89,22 @@ const uint32_t PacketSender::DEFAULT_TIMEOUT = 2;
 #else
     typedef SOCKET socket_type;
 
-    // fixme
+    char error_buf_[256];   // for a message up to 255 bytes.
+
     const char* make_error_string() {
-        return "error";
+        error_buf_[0] = '\0';
+
+        int err = WSAGetLastError();
+
+        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,   // flags
+            NULL,                // lpsource
+            err,                 // message id
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),    // languageid
+            error_buf_,              // output buffer
+            sizeof(error_buf_),     // size buffer in bytes
+            NULL);               // va_list of arguments
+
+        return error_buf_;
     }
 #endif
 
